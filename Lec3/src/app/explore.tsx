@@ -3,8 +3,9 @@ import {
   View,
   Text,
   TextInput,
-  Button,
   StyleSheet,
+  TouchableOpacity,
+  SafeAreaView,
 } from 'react-native';
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -38,50 +39,115 @@ export default function CartScreen() {
   };
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Cart</Text>
+    <SafeAreaView style={styles.safe}>
+      <View style={styles.container}>
+        <Text style={styles.title}>CART NOTE</Text>
+        <Text style={styles.subtitle}>SPECIAL INSTRUCTIONS</Text>
 
-      <TextInput
-        style={styles.input}
-        placeholder="Special instructions..."
-        value={note}
-        onChangeText={setNote}
-      />
+        <View style={styles.card}>
+          <TextInput
+            style={styles.input}
+            placeholder="Example: Less sugar, extra hot..."
+            placeholderTextColor="#9C8F78"
+            value={note}
+            onChangeText={setNote}
+            multiline
+          />
 
-      <Button
-        title="Save Note"
-        onPress={saveNote}
-      />
+          <TouchableOpacity style={styles.button} onPress={saveNote}>
+            <Text style={styles.buttonText}>SAVE NOTE</Text>
+          </TouchableOpacity>
+        </View>
 
-      <Text style={styles.saved}>
-        Saved Note: {note}
-      </Text>
-    </View>
+        <View style={styles.savedBox}>
+          <Text style={styles.savedLabel}>SAVED NOTE</Text>
+          <Text style={styles.saved}>
+            {note ? note : 'No note saved yet.'}
+          </Text>
+        </View>
+      </View>
+    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
+  safe: {
+    flex: 1,
+    backgroundColor: '#F7F0E4',
+  },
+
   container: {
     flex: 1,
-    padding: 20,
+    padding: 24,
+    backgroundColor: '#F7F0E4',
   },
 
   title: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    marginBottom: 20,
+    fontSize: 34,
+    fontWeight: '900',
+    color: '#24382B',
+    marginTop: 30,
+  },
+
+  subtitle: {
+    color: '#6C604D',
+    letterSpacing: 3,
+    fontSize: 11,
+    fontWeight: '700',
+    marginTop: 6,
+    marginBottom: 24,
+  },
+
+  card: {
+    backgroundColor: '#FFF9ED',
+    padding: 20,
+    borderRadius: 20,
+    borderWidth: 1,
+    borderColor: '#D8CDB8',
   },
 
   input: {
-    borderWidth: 1,
-    borderColor: '#ccc',
-    borderRadius: 5,
-    padding: 10,
-    marginBottom: 20,
+    minHeight: 120,
+    textAlignVertical: 'top',
+    color: '#24382B',
+    fontSize: 15,
+    borderBottomWidth: 1,
+    borderBottomColor: '#D8CDB8',
+    paddingBottom: 12,
+    marginBottom: 18,
+  },
+
+  button: {
+    backgroundColor: '#24382B',
+    paddingVertical: 14,
+    borderRadius: 30,
+    alignItems: 'center',
+  },
+
+  buttonText: {
+    color: '#F7F0E4',
+    fontWeight: '900',
+    letterSpacing: 1,
+  },
+
+  savedBox: {
+    marginTop: 24,
+    backgroundColor: '#24382B',
+    borderRadius: 18,
+    padding: 18,
+  },
+
+  savedLabel: {
+    color: '#F7F0E4',
+    fontWeight: '900',
+    letterSpacing: 2,
+    fontSize: 11,
+    marginBottom: 8,
   },
 
   saved: {
-    marginTop: 20,
-    fontSize: 16,
+    color: '#F7F0E4',
+    fontSize: 15,
+    lineHeight: 22,
   },
 });

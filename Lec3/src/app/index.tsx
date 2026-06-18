@@ -1,173 +1,198 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import {
   View,
   Text,
   FlatList,
   StyleSheet,
   TouchableOpacity,
-  ActivityIndicator,
+  SafeAreaView,
 } from 'react-native';
 import { router } from 'expo-router';
 
+const hotDrinks = [
+  {
+    id: '1',
+    name: 'Latte',
+    price: '₱150',
+    description: 'Smooth espresso mixed with steamed milk for a creamy and comforting taste.',
+  },
+  {
+    id: '2',
+    name: 'Caramel Latte',
+    price: '₱170',
+    description: 'Espresso and steamed milk blended with sweet caramel flavor.',
+  },
+  {
+    id: '3',
+    name: 'Cappuccino',
+    price: '₱160',
+    description: 'A classic espresso drink with steamed milk and thick foam on top.',
+  },
+  {
+    id: '4',
+    name: 'Americano',
+    price: '₱130',
+    description: 'Bold espresso mixed with hot water for a clean and strong coffee taste.',
+  },
+  {
+    id: '5',
+    name: 'Espresso',
+    price: '₱120',
+    description: 'A small but powerful shot of rich and intense coffee.',
+  },
+];
+
 export default function HomeScreen() {
-  const [coffeeItems, setCoffeeItems] = useState<any[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState('');
-
-  useEffect(() => {
-    loadMenu();
-  }, []);
-
-  const loadMenu = async () => {
-  try {
-    const response = await fetch(
-      'https://api.sampleapis.com/coffee/hot'
-    );
-
-    const data = await response.json();
-
-    const formattedData = data.slice(0, 5).map((item: any) => ({
-      id: item.id.toString(),
-      category: 'Hot Drinks',
-      name: item.title,
-      price: '₱150',
-      description: item.description,
-    }));
-
-    setCoffeeItems(formattedData);
-  } catch (err) {
-    setError(
-      'Unable to load menu. Check your internet connection.'
-    );
-  } finally {
-    setLoading(false);
-  }
-};
-
   const handlePress = (item: any) => {
     router.push({
       pathname: '/detail',
       params: {
-        name: item?.name ?? 'Unknown',
-        price: item?.price ?? 'N/A',
-        description: item?.description ?? 'No description available',
+        name: item.name,
+        price: item.price,
+        description: item.description,
       },
     });
   };
 
-  if (loading) {
-    return (
-      <View style={styles.center}>
-        <ActivityIndicator size="large" />
-        <Text>Loading menu...</Text>
-      </View>
-    );
-  }
-
-  if (error) {
-    return (
-      <View style={styles.center}>
-        <Text>{error}</Text>
-      </View>
-    );
-  }
-
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Placeholder Cafe</Text>
-      <Text style={styles.subtitle}>Coffee Shop Menu</Text>
+    <SafeAreaView style={styles.safe}>
+      <View style={styles.container}>
+        <View style={styles.header}>
+          <Text style={styles.title}>Terra</Text>
+          <Text style={styles.title}>Mori</Text>
 
-      <FlatList
-        data={Array.isArray(coffeeItems) ? coffeeItems : []}
-        keyExtractor={(item, index) =>
-          String(item?.id ?? index)
-        }
-        renderItem={({ item }) => {
-          if (!item) return null;
+          <Text style={styles.subtitle}>Cafe Bar</Text>
+        </View>
 
-          const category =
-            typeof item?.category === 'string'
-              ? item.category
-              : 'Unknown';
-
-          const name =
-            typeof item?.name === 'string'
-              ? item.name
-              : 'Unnamed Item';
-
-          const price =
-            typeof item?.price === 'string'
-              ? item.price
-              : 'N/A';
-
-          return (
+        <FlatList
+          data={hotDrinks}
+          keyExtractor={(item) => item.id}
+          showsVerticalScrollIndicator={false}
+          contentContainerStyle={styles.list}
+          renderItem={({ item }) => (
             <TouchableOpacity
               style={styles.card}
               onPress={() => handlePress(item)}
+              activeOpacity={0.85}
             >
-              <Text style={styles.category}>
-                {category.toUpperCase()}
+              <Text style={styles.name}>{item.name}</Text>
+
+              <Text style={styles.description} numberOfLines={1}>
+                {item.description}
               </Text>
 
-              <Text style={styles.name}>{name}</Text>
+              <View style={styles.divider} />
 
-              <Text style={styles.price}>{price}</Text>
+              <Text style={styles.price}>{item.price}</Text>
             </TouchableOpacity>
-          );
-        }}
-      />
-    </View>
+          )}
+        />
+      </View>
+    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
+  safe: {
     flex: 1,
-    padding: 16,
-    backgroundColor: '#fff',
+    backgroundColor: '#F7F0E4',
   },
 
-  center: {
+  container: {
     flex: 1,
-    justifyContent: 'center',
+    paddingHorizontal: 20,
+    backgroundColor: '#F7F0E4',
+  },
+
+  header: {
+    paddingTop: 35,
+    paddingBottom: 26,
     alignItems: 'center',
   },
 
   title: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    textAlign: 'center',
-    marginTop: 20,
+    fontSize: 38,
+    fontWeight: '900',
+    color: '#24382B',
+    letterSpacing: 1,
+    lineHeight: 40,
   },
 
   subtitle: {
-    textAlign: 'center',
-    color: 'gray',
-    marginBottom: 20,
+    marginTop: 12,
+    fontSize: 12,
+    color: '#6C604D',
+    letterSpacing: 3,
+    fontWeight: '700',
+  },
+
+  list: {
+    paddingBottom: 30,
   },
 
   card: {
-    padding: 15,
-    marginBottom: 10,
+    backgroundColor: '#FFF9ED',
+    paddingVertical: 22,
+    paddingHorizontal: 22,
+    borderRadius: 18,
+    marginBottom: 14,
     borderWidth: 1,
-    borderColor: '#ddd',
-    borderRadius: 8,
-  },
+    borderColor: '#D8CDB8',
 
-  category: {
-    fontSize: 10,
-    color: 'gray',
-    marginBottom: 5,
+    shadowColor: '#000',
+    shadowOpacity: 0.08,
+    shadowRadius: 6,
+    shadowOffset: { width: 0, height: 4 },
+    elevation: 3,
   },
 
   name: {
-    fontSize: 18,
-    fontWeight: 'bold',
+    fontSize: 22,
+    fontWeight: '900',
+    color: '#24382B',
+    marginBottom: 6,
+  },
+
+  description: {
+    fontSize: 13,
+    color: '#6C604D',
+    lineHeight: 19,
+  },
+
+  divider: {
+    height: 1,
+    backgroundColor: '#D8CDB8',
+    marginTop: 18,
+    marginBottom: 14,
   },
 
   price: {
-    marginTop: 5,
-    color: '#8B4513',
-    fontWeight: 'bold',
+    color: '#24382B',
+    fontSize: 18,
+    fontWeight: '900',
+    textAlign: 'left',
+  },
+
+  footer: {
+    marginTop: 14,
+    marginBottom: 35,
+    alignItems: 'center',
+    backgroundColor: '#24382B',
+    paddingVertical: 18,
+    borderRadius: 18,
+  },
+
+  script: {
+    color: '#F7F0E4',
+    fontSize: 16,
+    fontStyle: 'italic',
+    marginBottom: 6,
+  },
+
+  thanks: {
+    color: '#F7F0E4',
+    fontSize: 11,
+    letterSpacing: 2,
+    fontWeight: '700',
   },
 });
