@@ -1,13 +1,13 @@
-import React, { useEffect, useState } from 'react';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useEffect, useState } from 'react';
 import {
-  View,
+  SafeAreaView,
+  StyleSheet,
   Text,
   TextInput,
-  StyleSheet,
   TouchableOpacity,
-  SafeAreaView,
+  View,
 } from 'react-native';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function ProfileScreen() {
   const [name, setName] = useState('');
@@ -41,7 +41,7 @@ export default function ProfileScreen() {
     <SafeAreaView style={styles.safe}>
       <View style={styles.container}>
         <Text style={styles.title}>PROFILE</Text>
-        <Text style={styles.subtitle}>WELCOME TO NOIR POST CAFIESTA</Text>
+        <Text style={styles.subtitle}>WELCOME TO TERRA MORI</Text>
 
         <View style={styles.card}>
           <Text style={styles.label}>YOUR NAME</Text>
