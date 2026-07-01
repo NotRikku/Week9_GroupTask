@@ -14,31 +14,30 @@ const hotDrinks = [
     id: '1',
     name: 'Latte',
     price: '₱150',
-    description: 'Smooth espresso mixed with steamed milk for a creamy and comforting taste.',
+
   },
   {
     id: '2',
     name: 'Caramel Latte',
     price: '₱170',
-    description: 'Espresso and steamed milk blended with sweet caramel flavor.',
+  
   },
   {
     id: '3',
     name: 'Cappuccino',
     price: '₱160',
-    description: 'A classic espresso drink with steamed milk and thick foam on top.',
   },
   {
     id: '4',
     name: 'Americano',
     price: '₱130',
-    description: 'Bold espresso mixed with hot water for a clean and strong coffee taste.',
+
   },
   {
     id: '5',
     name: 'Espresso',
     price: '₱120',
-    description: 'A small but powerful shot of rich and intense coffee.',
+
   },
 ];
 

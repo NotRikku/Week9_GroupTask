@@ -41,7 +41,6 @@ export default function ProfileScreen() {
     <SafeAreaView style={styles.safe}>
       <View style={styles.container}>
         <Text style={styles.title}>PROFILE</Text>
-        <Text style={styles.subtitle}>WELCOME TO TERRA MORI</Text>
 
         <View style={styles.card}>
           <Text style={styles.label}>YOUR NAME</Text>

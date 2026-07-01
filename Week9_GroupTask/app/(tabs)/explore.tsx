@@ -42,7 +42,7 @@ export default function CartScreen() {
     <SafeAreaView style={styles.safe}>
       <View style={styles.container}>
         <Text style={styles.title}>CART NOTE</Text>
-        <Text style={styles.subtitle}>SPECIAL INSTRUCTIONS</Text>
+        
 
         <View style={styles.card}>
           <TextInput
